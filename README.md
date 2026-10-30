@@ -1,146 +1,231 @@
-# BREADTH-FIRST-SEARCH
-<h1>ExpNo 3 : Implement Breadth First Search Traversal of a Graph</h1> 
-<h3>Name:SWETHA SREE R </h3>
-<h3>Register Number:212225040452 </h3>
+<h1>ExpNo 4 : Implement A* search algorithm for a Graph</h1> 
+<h3>Name: SWETHA SREE R</h3>
+<h3>Register Number:  212225040452       </h3>
+<h3>date : 30/07/26 </h3>
 <H3>Aim:</H3>
-<p>To Implement Breadth First Search Traversal of a Graph using Python 3.</p>
-<h3>Theory:</h3>
-<p>Breadth-First Traversal (or Search) for a graph is like the Breadth-First Traversal of a tree.
-The only catch here is that, unlike trees, graphs may contain cycles so that we may come to the same node again. To avoid processing a node more than once, we divide the vertices into two categories:
-<ol><li>Visited</li>
-<li>Not Visited</li></ol>
-</p>
-<p>A Boolean visited array is used to mark the visited vertices. For simplicity, it is assumed that all vertices are reachable from the starting vertex. BFS uses a queue data structure for traversal.</p>
-<p><strong>How does BFS work?</strong><br>
-  Starting from the root, all the nodes at a particular level are visited first, and then the next level nodes are traversed until all the nodes are visited.
-To do this, a queue is used. All the adjacent unvisited nodes of the current level are pushed into the queue, and the current-level nodes are marked visited and popped from the queue.
-Illustration:
-Let us understand the working of the algorithm with the help of the following example.
-Step1: Initially queue and visited arrays are empty.
-</p>
+<p>To ImplementA * Search algorithm for a Graph using Python 3.</p>
+<H3>Algorithm:</H3>
 
-![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/8acdebf8-ecc2-4d10-a208-45cce441f059)
+``````
+// A* Search Algorithm
+1.  Initialize the open list
+2.  Initialize the closed list
+    put the starting node on the open 
+    list (you can leave its f at zero)
 
+3.  while the open list is not empty
+    a) find the node with the least f on 
+       the open list, call it "q"
 
-Queue and visited arrays are empty initially.
-Step2: Push node 0 into queue and mark it visited.
-
-![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/0e9ce012-8e1f-43d7-b7b9-c0fb19fe0c3f)
-
-
-Push node 0 into queue and mark it visited.
-Step 3: Remove node 0 from the front of queue and visit the unvisited neighbours and push them into queue.
-
-![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/67d8fa3b-ce9e-46c2-9dd7-089e204e667a)
-
-Step 4: Remove node 1 from the front of queue and visit the unvisited neighbours and push them into queue.
-
-![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/b0cf0fde-8a86-41cb-a054-36875ac24ab0)
-
-Step 5: Remove node 2 from the front of queue and visit the unvisited neighbours and push them into queue.
-
-![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/8968a163-6b3a-4f7e-8ad4-bbf24f326b9b)
-
-Step 6: Remove node 3 from the front of queue and visit the unvisited neighbours and push them into queue. 
-As we can see that every neighbours of node 3 is visited, so move to the next node that are in the front of the queue.
-
-![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/7a1c1b16-ea69-497f-a099-8440200f6dc0)
-
-Steps 7: Remove node 4 from the front of queue and visit the unvisited neighbours and push them into queue. 
-As we can see that every neighbours of node 4 are visited, so move to the next node that is in the front of the queue.
-
-![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/8e16ffa3-c3d6-4774-822b-6eb84adedad9)
-
-Remove node 4 from the front of queue and visit the unvisited neighbours and push them into queue.
-Now, Queue becomes empty, So, terminate these process of iteration.
-
-
-<hr>
-<h2>Algorithm:</h2>
-<hr>
-<ol>
-  <li>Construct a Graph with Nodes and Edges</li>
- <li>Breadth First Uses Queue and iterates through the Queue for Traversal.</li>
-  <li>Insert a Start Node into the Queue.</li>
-<li>Find its Successors Or neighbors and Check whether the node is visited or not.</li>
-<li>If Not Visited, add it to the Queue. Else Continue.</li>
-<li>Iterate steps 4 and 5 until all nodes get visited, and there are no more unvisited nodes.</li>
+    b) pop q off the open list
   
-### program
-```
-from collections import deque
-from collections import defaultdict
+    c) generate q's 8 successors and set their 
+       parents to q
+   
+    d) for each successor
+        i) if successor is the goal, stop search
+        
+        ii) else, compute both g and h for successor
+          successor.g = q.g + distance between 
+                              successor and q
+          successor.h = distance from goal to 
+          successor (This can be done using many 
+          ways, we will discuss three heuristics- 
+          Manhattan, Diagonal and Euclidean 
+          Heuristics)
+          
+          successor.f = successor.g + successor.h
 
-def bfs(graph, start, visited, path):
-    queue = deque()
-    path.append(start)
-    queue.append(start)
-    visited[start] = True
-    while len(queue) != 0:
-        tmpnode = queue.popleft()
-        for neighbor in graph[tmpnode]:
-            if not visited[neighbor]:
-                path.append(neighbor)
-                queue.append(neighbor)
-                visited[neighbor] = True
-    return path
+        iii) if a node with the same position as 
+            successor is in the OPEN list which has a 
+           lower f than successor, skip this successor
+
+        iV) if a node with the same position as 
+            successor  is in the CLOSED list which has
+            a lower f than successor, skip this successor
+            otherwise, add  the node to the open list
+     end (for loop)
+  
+    e) push q on the closed list
+    end (while loop)
+
+``````
+
+<hr>
+<h2>Sample Graph I</h2>
+<hr>
+
+![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/b1377c3f-011a-4c0f-a843-516842ae056a)
+
+<hr>
+<h2>Sample Input</h2>
+<hr>
+10 14 <br>
+A B 6 <br>
+A F 3 <br>
+B D 2 <br>
+B C 3 <br>
+C D 1 <br>
+C E 5 <br>
+D E 8 <br>
+E I 5 <br>
+E J 5 <br>
+F G 1 <br>
+G I 3 <br>
+I J 3 <br>
+F H 7 <br>
+I H 2 <br>
+A 10 <br>
+B 8 <br>
+C 5 <br>
+D 7 <br>
+E 3 <br>
+F 6 <br>
+G 5 <br>
+H 3 <br>
+I 1 <br>
+J 0 <br>
+<hr>
+<h2>Sample Output</h2>
+<hr>
+Path found: ['A', 'F', 'G', 'I', 'J']
+
+
+<hr>
+<h2>Sample Graph II</h2>
+<hr>
+
+![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/acbb09cb-ed39-48e5-a59b-2f8d61b978a3)
+
+
+<hr>
+<h2>Sample Input</h2>
+<hr>
+6 6 <br>
+A B 2 <br>
+B C 1 <br>
+A E 3 <br>
+B G 9 <br>
+E D 6 <br>
+D G 1 <br>
+A 11 <br>
+B 6 <br>
+C 99 <br>
+E 7 <br>
+D 1 <br>
+G 0 <br>
+<hr>
+<h2>Sample Output</h2>
+<hr>
+Path found: ['A', 'E', 'D', 'G']
+
+### PROGRAM:
+```
+# A* Algorithm
+from collections import defaultdict
+import networkx as nx
+import matplotlib.pyplot as plt
+
+def a_star(graph, heuristic, start, goal):
+    open_set = {start}
+    closed_set = set()
+    g = {start: 0}
+    parent = {start: None}
+    while open_set:
+        current = min(open_set, key=lambda node: g[node] + heuristic[node])
+        if current == goal:
+            path = []
+            while current is not None:
+                path.append(current)
+                current = parent[current]
+            path.reverse()
+            print("\nShortest Path :", " -> ".join(path))
+            print("Total Cost :", g[goal])
+            return path
+        open_set.remove(current)
+        closed_set.add(current)
+        for neighbour, cost in graph[current]:
+            if neighbour in closed_set:
+                continue
+            new_cost = g[current] + cost
+            if neighbour not in open_set:
+                open_set.add(neighbour)
+            elif new_cost >= g.get(neighbour, float('inf')):
+                continue
+            g[neighbour] = new_cost
+            parent[neighbour] = current
+    print("Path does not exist!")
+    return None
 
 graph = defaultdict(list)
-v, e = map(int, input().split())
+G = nx.Graph()
+n, e = map(int, input("Enter number of nodes and edges: ").split())
+print("\nEnter the edges (u v cost):")
 for i in range(e):
-    u, v = input().split()
-    graph[u].append(v)
-    graph[v].append(u)  # For undirected graph
+    u, v, cost = input(f"Edge {i+1}: ").split()
+    cost = int(cost)
+    graph[u].append((v, cost))
+    graph[v].append((u, cost))
+    G.add_edge(u, v, weight=cost)
 
-start = input()  # Changed start to 'A' to match the provided graph nodes
-path = []
-visited = defaultdict(bool)
-traversedpath = bfs(graph, start, visited, path)
-print(traversedpath)
+print("\nAdjacency List")
+for node in graph:
+    print(node, "->", graph[node])
+
+heuristic = {}
+print("\nEnter Heuristic Values")
+for i in range(n):
+    node, h = input(f"{i+1}. Node Heuristic : ").split()
+    heuristic[node] = int(h)
+print("\nHeuristic Values")
+print(heuristic)
+
+plt.figure(figsize=(8,6))                                # Draw Original Graph
+
+pos = nx.spring_layout(G, seed=20)
+nx.draw_networkx_nodes(G, pos, node_color="skyblue", node_size=1800)
+nx.draw_networkx_labels(G, pos, font_size=12,font_weight="bold")
+nx.draw_networkx_edges(G, pos, width=2)
+edge_labels = nx.get_edge_attributes(G, 'weight')
+nx.draw_networkx_edge_labels(G, pos,  edge_labels=edge_labels)
+plt.title("Original Graph")
+plt.axis("off")
+plt.show()
+
+start = input("\nEnter Start Node: ")
+goal = input("Enter Goal Node: ")
+if start not in graph:
+    print("Invalid Start Node!")
+elif goal not in graph:
+    print("Invalid Goal Node!")
+else:
+    shortest_path = a_star(graph, heuristic, start, goal)
+    if shortest_path:                                               # Highlight Shortest Path
+        path_edges = []
+        for i in range(len(shortest_path)-1):
+            path_edges.append((shortest_path[i], shortest_path[i+1]))
+        plt.figure(figsize=(8,6))
+
+        nx.draw_networkx_nodes(G, pos, node_color="skyblue",  node_size=1800)
+        nx.draw_networkx_labels(G, pos, font_size=12,   font_weight="bold")
+
+        # Draw all edges
+        nx.draw_networkx_edges(G , pos, edge_color="gray", width=2)
+
+
+
+        # Highlight shortest path
+        nx.draw_networkx_edges(G, pos,  edgelist=path_edges, edge_color="red", width=4)
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+        plt.title("Shortest Path Highlighted (Red)")
+        plt.axis("off")
+        plt.show()
 ```
+### OUTPUT:
 
-<hr>
-<h3>Sample Input</h3>
-<hr>
-7 9 <BR>
-A B <BR>
-A C <BR>
-A F <BR>
-C E <BR>
-C F <BR>
-C D <BR>
-D E <BR>
-D G <BR>
-G F <BR>
-<hr>
-<h3>Sample Output</h3>
-<hr>
-['A', 'B', 'C', 'F', 'E', 'D', 'G']
+<img width="857" height="646" alt="Screenshot 2026-07-30 111853" src="https://github.com/user-attachments/assets/4308e69f-5cca-431f-873b-57e12b42178e" />
+<img width="1036" height="622" alt="Screenshot 2026-07-30 112027" src="https://github.com/user-attachments/assets/8de4ae2b-ed36-4fec-961a-50ef974b8551" />
 
-<hr>
-
-<hr>
-<h3>Sample Input</h3>
-<hr>
-5 6 <BR>
-0 1 <BR>
-0 2 <BR>
-1 2 <BR>
-1 3 <BR>
-2 4 <BR>
-3 4 <BR>
-<hr>
-<h3>Sample Output</h3>
-<hr>
-['0', '1', '2', '3', '4']
-<hr>
-<h3>Result:</h3>
-<hr>
-<p>Thus,a Graph was constructed and implementation of Breadth First Search for the same graph was done successfully.</p>
-
-
-
-
-
-
+### RESULT :
+Implement A* search algorithm for a Graph executed successfully.
 
